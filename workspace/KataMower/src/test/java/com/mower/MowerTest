@@ -1,0 +1,109 @@
+package com.mower;
+
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest
+public class MowerTest {
+
+    private final Square square = new Square(10,10);
+
+    @Test
+    void test_mower_position_turn_right () {
+        Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
+        mowerPosition.turnRight();
+        assertThat(mowerPosition.direction()).isEqualTo(Direction.WEST);
+    }
+
+    @Test
+    void test_mower_position_turn_left () {
+        Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
+        mowerPosition.turnLeft();
+        assertThat(mowerPosition.direction()).isEqualTo(Direction.EAST);
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_north () {
+        Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
+        mowerPosition.goForward();
+        assertThat(mowerPosition.coordinates()).isEqualTo(new Coordinates(0,1));
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_south () {
+        Position mowerPosition = new Position(new Coordinates(0, 10), Direction.EAST);
+        mowerPosition.goForward();
+        assertThat(mowerPosition.coordinates()).isEqualTo(new Coordinates(0,9));
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_east () {
+        Position mowerPosition = new Position(new Coordinates(10, 0), Direction.SOUTH);
+        mowerPosition.goForward();
+        assertThat(mowerPosition.coordinates()).isEqualTo(new Coordinates(9,0));
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_west () {
+        Position mowerPosition = new Position(new Coordinates(0, 0), Direction.WEST);
+        mowerPosition.goForward();
+        assertThat(mowerPosition.coordinates()).isEqualTo(new Coordinates(0,1));
+    }
+
+    @Test
+    void test_mower_position_file_reading () {
+        Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
+        assertThat(mowerPosition.direction()).isIn(Direction.WEST,Direction.SOUTH,
+                Direction.NORTH,Direction.EAST);
+        assertThat(mowerPosition.coordinates().x()).isBetween(0,9);
+        assertThat(mowerPosition.coordinates().y()).isBetween(0,9);
+    }
+
+    //TODO convert to BDD
+    //test cas passant de 2 mower
+    //@Test
+    //void test_mower_instructions (){
+      //  javax.swing.text.Position mowerPosition = new javax.swing.text.Position(0,0,"N");
+       // Instruction instruction = new Instruction("L");
+        //Instruction instruction = new Instruction("R");
+        //Instruction instruction = new Instruction("F");
+        //assert (instruction.getCommand()).eq
+        //mowerPosition.move()
+    //}
+
+    @Test
+    void test_mower_position_go_forward_from_max_north () {
+        Position mowerPosition = new Position(new Coordinates(square.length(), 0), Direction.NORTH);
+        Exception exception = assertThrows(OutOfBoundsException.class, mowerPosition::goForward);
+        assertTrue(exception.getMessage().contains("expectedMessage"));
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_min_south () {
+        Position mowerPosition = new Position(new Coordinates(0, 9), Direction.SOUTH);
+        Exception exception = assertThrows(OutOfBoundsException.class, mowerPosition::goForward);
+        assertTrue(exception.getMessage().contains("expectedMessage"));
+    }
+
+
+    @Test
+    void test_mower_position_go_forward_from_max_east () {
+        Position mowerPosition = new Position(new Coordinates(7, 0), Direction.WEST);
+        Exception exception = assertThrows(OutOfBoundsException.class, mowerPosition::goForward);
+        assertTrue(exception.getMessage().contains("expectedMessage"));
+    }
+
+    @Test
+    void test_mower_position_go_forward_from_max_west () {
+        Position mowerPosition = new Position(new Coordinates(0, square.height()), Direction.EAST);
+        Exception exception = assertThrows(OutOfBoundsException.class, mowerPosition::goForward);
+        assertTrue(exception.getMessage().contains("expectedMessage"));
+    }
+
+
+}
