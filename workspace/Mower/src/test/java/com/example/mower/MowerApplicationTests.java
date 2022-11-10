@@ -1,5 +1,4 @@
-package com.mower;
-
+package com.example.mower;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,22 +8,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class MowerTest {
+class MowerApplicationTests {
 
     private final Square square = new Square(10,10);
 
     @Test
+    void contextLoads() {
+    }
+
+    @Test
     void test_mower_position_turn_right () {
         Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
-        mowerPosition.turnRight();
-        assertThat(mowerPosition.direction()).isEqualTo(Direction.WEST);
+        Position newMowerPosition= mowerPosition.turnRight();
+        assertThat(newMowerPosition.direction()).isEqualTo(Direction.WEST);
     }
 
     @Test
     void test_mower_position_turn_left () {
         Position mowerPosition = new Position(new Coordinates(0, 0), Direction.NORTH);
-        mowerPosition.turnLeft();
-        assertThat(mowerPosition.direction()).isEqualTo(Direction.EAST);
+        Position newMowerPosition= mowerPosition.turnLeft();
+        assertThat(newMowerPosition.direction()).isEqualTo(Direction.EAST);
     }
 
     @Test
@@ -68,12 +71,12 @@ public class MowerTest {
     //test cas passant de 2 mower
     //@Test
     //void test_mower_instructions (){
-      //  javax.swing.text.Position mowerPosition = new javax.swing.text.Position(0,0,"N");
-       // Instruction instruction = new Instruction("L");
-        //Instruction instruction = new Instruction("R");
-        //Instruction instruction = new Instruction("F");
-        //assert (instruction.getCommand()).eq
-        //mowerPosition.move()
+    //  javax.swing.text.Position mowerPosition = new javax.swing.text.Position(0,0,"N");
+    // Instruction instruction = new Instruction("L");
+    //Instruction instruction = new Instruction("R");
+    //Instruction instruction = new Instruction("F");
+    //assert (instruction.getCommand()).eq
+    //mowerPosition.move()
     //}
 
     @Test
@@ -104,6 +107,5 @@ public class MowerTest {
         Exception exception = assertThrows(OutOfBoundsException.class, mowerPosition::goForward);
         assertTrue(exception.getMessage().contains("expectedMessage"));
     }
-
 
 }

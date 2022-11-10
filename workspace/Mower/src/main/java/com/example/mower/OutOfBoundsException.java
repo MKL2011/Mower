@@ -1,4 +1,4 @@
-package com.mower;
+package com.example.mower;
 
 public class OutOfBoundsException extends Exception {
     @Override
